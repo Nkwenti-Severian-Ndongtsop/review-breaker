@@ -1,0 +1,11 @@
+.env
+nextjs_space/.env
+nextjs_space/node_modules
+.nextjs_space/node_modules
+
+nextjs_space/package-lock.json
+nextjs_space/.env
+nextjs_space/.yarnrc.yml
+nextjs_space/node_modules
+nextjs_space/.next
+.idea

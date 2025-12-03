@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 160 60% 45%;
+    --secondary-foreground: 160 60% 10%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 210 100% 50%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-gradient-to-br from-blue-50 via-white to-emerald-50 text-foreground min-h-screen;
+  }
+}
+
+/* Suppress hydration warnings */
+[data-rehype-pretty-code-fragment] {
+  @apply !bg-transparent;
+}
+
+/* Banking specific styles */
+.banking-card {
+  @apply bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-all duration-300;
+}
+
+.banking-gradient {
+  @apply bg-gradient-to-r from-blue-600 to-emerald-600;
+}
+
+.balance-card {
+  @apply banking-gradient text-white p-6 rounded-xl shadow-xl;
+}
+
+.transaction-item {
+  @apply flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Number counter animation */
+@keyframes countUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.count-up {
+  animation: countUp 1s ease-out;
+}

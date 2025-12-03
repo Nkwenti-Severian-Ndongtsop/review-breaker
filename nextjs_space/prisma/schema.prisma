@@ -1,0 +1,82 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  accounts  Account[]
+  sessions  Session[]
+  accounts_session Account[]  @relation("AccountToSession")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id            String        @id @default(cuid())
+  accountNumber String        @unique
+  accountType   AccountType
+  accountName   String
+  balance       Float         @default(0)
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  sentTransactions     Transaction[] @relation("FromAccount")
+  receivedTransactions Transaction[] @relation("ToAccount")
+  sessions      User[]        @relation("AccountToSession")
+}
+
+enum AccountType {
+  CHECKING
+  SAVINGS
+  CREDIT
+}
+
+model Transaction {
+  id            String            @id @default(cuid())
+  fromAccountId String?
+  toAccountId   String?
+  amount        Float
+  type          TransactionType
+  description   String
+  status        TransactionStatus @default(COMPLETED)
+  balanceAfter  Float?
+  timestamp     DateTime          @default(now())
+  fromAccount   Account?          @relation("FromAccount", fields: [fromAccountId], references: [id])
+  toAccount     Account?          @relation("ToAccount", fields: [toAccountId], references: [id])
+  
+  @@index([fromAccountId])
+  @@index([toAccountId])
+  @@index([timestamp])
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+  TRANSFER
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}

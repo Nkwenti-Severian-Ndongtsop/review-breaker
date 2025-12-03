@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    container_name: evinsk_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: evinsk
+    ports:
+      - "5433:5432"
+    volumes:
+      - evinsk_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  evinsk_pg_data:
