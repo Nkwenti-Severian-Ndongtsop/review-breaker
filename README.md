@@ -40,9 +40,10 @@ Notes:
    - Verify: `docker ps` should show `evinsk_postgres`.
 2. Install dependencies:
    - From `nextjs_space/`: `npm install`
-3. Apply Prisma migrations (if any) and generate client:
-   - `npx prisma migrate deploy`
-   - `npx prisma generate`
+3. Create and apply initial database migration:
+   ```bash
+   npx prisma migrate dev --name init
+   ```
 4. Seed data (optional for demo accounts):
    - `npx prisma db seed`
    - Seed creates: `john@doe.com / johndoe123` (Admin), plus demo users.

