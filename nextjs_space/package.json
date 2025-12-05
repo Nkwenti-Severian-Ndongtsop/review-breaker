@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:lan": "NEXTAUTH_URL=http://192.168.1.108:3005 next dev --hostname 0.0.0.0",
+    "dev:lan": "NEXTAUTH_URL=http://192.168.4.199:3005 next dev --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "start:lan": "NEXTAUTH_URL=http://192.168.1.108:3005 next start -H 0.0.0.0 -p 3005",
+    "start:lan": "NEXTAUTH_URL=http://192.168.4.199:3005 next start -H 0.0.0.0 -p 3005",
     "lint": "next lint"
   },
   "prisma": {

