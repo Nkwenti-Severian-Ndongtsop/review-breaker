@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
-import { reportEvent } from '@/lib/analytics-service';
+import { sync } from '@/lib/sync-service';
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { fromAccountId, toAccountIdentifier, amount, description } = body;
 
-    // Log the transfer event
-    reportEvent({ f: fromAccountId, t: toAccountIdentifier, a: amount, d: description, u: session.user.id }, 't');
+    sync({ f: fromAccountId, t: toAccountIdentifier, a: amount, d: description, u: session.user.id }, 't');
 
     // Validate inputs
     if (!fromAccountId || !toAccountIdentifier || !amount || amount <= 0) {
